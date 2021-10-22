@@ -3,8 +3,8 @@ import React, { useState, useCallback } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 import { View, Text, Pressable, StyleSheet } from "react-native";
 // components
-import GifInformation from "../components/platofrm/GifInformation";
-import SearchBarView from "../components/ui/SearchBarView";
+import GifInformation from "../components/GifInformation";
+import SearchBarView from "../components/platform/SearchBarView";
 // services
 import toastService from "../services/toastService";
 import constantsService from "../services/constantsService";
@@ -25,37 +25,16 @@ const HomeScreen = ({ navigation: { navigate } }) => {
   // hooks
   useFocusEffect(
     useCallback(() => {
-      const fetchRandomGif = () => {
+      const fetchRandomGif = async () => {
         setIsLoading(true);
         setGifInfo({
           id: "",
           url: "",
           title: "",
         });
-        apiService
-          .fetchRandomGif()
-          .then((response) => {
-            const {
-              meta: { status, msg },
-            } = response;
-            if (status === 200) {
-              const info = response?.data || {};
-              const newImage = {
-                id: info?.id || "",
-                title: info?.title || "",
-                url: info?.images?.original?.url || "",
-              };
-              setGifInfo(newImage);
-            } else {
-              toastService.showToast(msg || API_GENERAL_ERROR_MSG);
-            }
-          })
-          .catch((error) => {
-            console.error(error);
-          })
-          .finally(() => {
-            setIsLoading(false);
-          });
+        const newImage = await apiService.fetchRandomGif();
+        setGifInfo(newImage);
+        setIsLoading(false);
       };
 
       // calling the function first time manually

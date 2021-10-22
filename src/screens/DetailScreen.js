@@ -4,7 +4,7 @@ import { StyleSheet, View, Text } from "react-native";
 import { Icon } from "react-native-elements";
 
 // components
-import GifInformation from "../components/platofrm/GifInformation";
+import GifInformation from "../components/GifInformation";
 
 const DetailScreen = ({ route, navigation: { goBack } }) => {
   const { gifInfo, ageRestriction } = route.params;
