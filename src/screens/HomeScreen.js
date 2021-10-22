@@ -40,12 +40,12 @@ const HomeScreen = ({ navigation: { navigate } }) => {
       // calling the function first time manually
       fetchRandomGif();
       // subscribe interval
-      // const gifFetchInterval = setInterval(() => {
-      //   fetchRandomGif();
-      // }, 10000);
+      const gifFetchInterval = setInterval(() => {
+        fetchRandomGif();
+      }, 10000);
 
       // unsubscribe interval
-      // return () => clearInterval(gifFetchInterval);
+      return () => clearInterval(gifFetchInterval);
     }, []),
   );
 
