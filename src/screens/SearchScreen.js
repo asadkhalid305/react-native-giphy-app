@@ -69,42 +69,19 @@ const SearchScreen = ({ navigation: { navigate } }) => {
   };
 
   // helpers
-  function onChangeSearchText(text) {
+  async function onChangeSearchText(text) {
     if (!text) {
       clearState();
       return;
     }
     setImages([]);
-
-    apiService
-      .fetchSearchedGifs(text)
-      .then((response) => {
-        const {
-          meta: { status, msg },
-        } = response;
-        if (status === 200) {
-          const info = response?.data || [];
-          let newImages = [];
-          info.forEach((item) => {
-            const newImage = {
-              id: item?.id || "",
-              title: item?.title || "",
-              url: item?.images?.original?.url || "",
-            };
-            newImages.push(newImage);
-          });
-          setImages(newImages);
-        } else {
-          setIsErrorInResponse(true);
-          toastService.showToast(msg || API_GENERAL_ERROR_MSG);
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+    const newImages = await apiService.fetchSearchedGifs(text);
+    if (!newImages || !newImages.length) {
+      setIsErrorInResponse(true);
+    } else {
+      setImages(newImages);
+    }
+    setIsLoading(false);
   }
 
   const clearState = () => {

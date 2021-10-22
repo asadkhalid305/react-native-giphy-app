@@ -2,9 +2,9 @@
 import React from "react";
 import { StyleSheet, View, Text, Image, ActivityIndicator } from "react-native";
 // components
-import AgeBadge from "../ui/AgeBadge";
+import AgeBadge from "./platform/AgeBadge";
 // services
-import { DimensionHeight, IsValidURL } from "../../services/utilService";
+import { DimensionHeight, IsValidURL } from "../services/utilService";
 
 const GifInformation = ({
   gifInfo,
